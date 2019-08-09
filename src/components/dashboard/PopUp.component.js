@@ -231,7 +231,7 @@ export default function PopUp({ open, handleClose }) {
             container
             item
             direction="row"
-            style={{ marginLeft: "5%", marginBottom: "10%" }}
+            style={{ marginLeft: "5%", marginBottom: "5%" }}
           >
             <Grid item xs={6}>
               <Typography> Selfie Video </Typography>
