@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Button,
@@ -7,9 +7,14 @@ import {
   Typography,
   Hidden
 } from "@material-ui/core";
-import CustomizedInputBase from "../common/custom";
+import CustomizedInputBase from "../common/customTextbox";
 import checkImage from "../../assets/checkmark_white.png";
 import { makeStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   leftContainer: {
@@ -43,13 +48,31 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Login = () => {
+const Login = ({ history }) => {
   const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [didFailLogin, setDidFailLogin] = useState(false);
+
   const featuresList = [
     "Bank-level Security",
     "No Credit Card required",
     "GDPR compliant"
   ];
+
+  const handleLogin = async () => {
+    const result = await axios.post("http://localhost:3050/", {
+      user: email,
+      password: password
+    });
+
+    if (result.data && result.data.valid) {
+      history.push("dashboard");
+      setDidFailLogin(false);
+    } else {
+      setDidFailLogin(true);
+    }
+  };
 
   return (
     <Grid container direction="row">
@@ -152,7 +175,7 @@ const Login = () => {
               <Box fontWeight="400">Business Email</Box>
             </Typography>
 
-            <CustomizedInputBase />
+            <CustomizedInputBase onChange={ev => setEmail(ev.target.value)} />
 
             <Typography
               component={"span"}
@@ -160,7 +183,11 @@ const Login = () => {
             >
               <Box fontWeight="400">Password</Box>
             </Typography>
-            <CustomizedInputBase />
+
+            <CustomizedInputBase
+              onChange={ev => setPassword(ev.target.value)}
+              isPassword={true}
+            />
             <Typography
               component={"span"}
               style={{ margingTop: "2vh", marginBottom: "2vh" }}
@@ -170,6 +197,7 @@ const Login = () => {
 
             <Grid container item justify="center">
               <Button
+                onClick={handleLogin}
                 variant="contained"
                 color="primary"
                 className={classes.loginButton}
@@ -180,8 +208,17 @@ const Login = () => {
           </FormControl>
         </Grid>
       </Grid>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right"
+        }}
+        open={didFailLogin}
+        autoHideDuration={6000}
+        message={<span id="message-id">Login Failed</span>}
+      />
     </Grid>
   );
 };
 
-export default Login;
+export default withRouter(Login);

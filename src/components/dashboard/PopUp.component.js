@@ -35,7 +35,15 @@ export default function PopUp({ open, handleClose }) {
   const classes = useStyles();
 
   const renderRequirement = text => (
-    <Grid container item xs direction="row" alignItems="center" spacing={4}>
+    <Grid
+      key={text}
+      container
+      item
+      xs
+      direction="row"
+      alignItems="center"
+      spacing={4}
+    >
       <Grid item>
         <CheckCircleIcon style={{ fontSize: 15, color: "#e9e9e9" }} />
       </Grid>

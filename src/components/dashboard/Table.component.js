@@ -51,7 +51,6 @@ const Table = ({ handleOpen }) => {
       return (
         <Button
           variant="contained"
-          color="disabled"
           style={{ backgroundColor: "#6c96f7", color: "#fff" }}
         >
           Processing

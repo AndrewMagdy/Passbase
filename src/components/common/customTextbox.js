@@ -27,12 +27,16 @@ const useStyles = makeStyles({
   }
 });
 
-export default function CustomizedInputBase() {
+export default function CustomizedInputBase({ onChange, isPassword = false }) {
   const classes = useStyles();
 
   return (
     <Paper className={classes.root}>
-      <InputBase className={classes.input} />
+      <InputBase
+        onChange={onChange}
+        type={isPassword ? "password" : "text"}
+        className={classes.input}
+      />
     </Paper>
   );
 }
