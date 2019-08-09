@@ -11,6 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MUIDataTable from "mui-datatables";
 import { makeStyles } from "@material-ui/core/styles";
 import colors from "../../themeColors";
+import PopUp from "./PopUp.component";
 
 const drawerWidth = 240;
 
@@ -112,7 +113,6 @@ const Dashboard = () => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar position="fixed" className={classes.appBar} color="secondary">
         <Toolbar />
       </AppBar>
@@ -312,6 +312,7 @@ const Dashboard = () => {
             selectableRows: "none"
           }}
         />
+        <PopUp />
       </main>
     </div>
   );
