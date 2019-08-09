@@ -12,8 +12,6 @@ import checkImage from "../../assets/checkmark_white.png";
 import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
@@ -61,7 +59,7 @@ const Login = ({ history }) => {
   ];
 
   const handleLogin = async () => {
-    const result = await axios.post("http://localhost:3050/", {
+    const result = await axios.post(process.env.REACT_APP_API_END_POINT, {
       user: email,
       password: password
     });
