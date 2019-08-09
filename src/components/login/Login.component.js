@@ -9,9 +9,9 @@ import {
 } from "@material-ui/core";
 import CustomizedInputBase from "../common/custom";
 import checkImage from "../../assets/checkmark_white.png";
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
-const styles = () => ({
+const useStyles = makeStyles(theme => ({
   leftContainer: {
     height: "100vh",
     width: "60vw",
@@ -41,9 +41,10 @@ const styles = () => ({
     width: "40%",
     fontWeight: "700"
   }
-});
+}));
 
-const Login = ({ classes }) => {
+const Login = () => {
+  const classes = useStyles();
   const featuresList = [
     "Bank-level Security",
     "No Credit Card required",
@@ -183,4 +184,4 @@ const Login = ({ classes }) => {
   );
 };
 
-export default withStyles(styles)(Login);
+export default Login;
