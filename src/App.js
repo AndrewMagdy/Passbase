@@ -1,14 +1,16 @@
 import React from "react";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-import Login from "./components/login/Login.component";
+
 import theme from "./theme";
-import Dashboard from "./components/dashboard/Dashboard.component";
+import Routes from "./routes/routes";
+import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
-      {/* <Login /> */}
-      <Dashboard />
+      <Router>
+        <Routes />
+      </Router>
     </MuiThemeProvider>
   );
 }

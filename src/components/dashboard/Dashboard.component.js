@@ -1,35 +1,14 @@
 import React from "react";
-import { Grid, Button, Paper, Badge, Chip, Box } from "@material-ui/core";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
+import { Grid, Button, Paper, Badge, Chip } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import MUIDataTable from "mui-datatables";
 import { makeStyles } from "@material-ui/core/styles";
-import colors from "../../themeColors";
+import DashboardAppBar from "./DashboardAppBar.component";
 import PopUp from "./PopUp.component";
-
-const drawerWidth = 240;
+import Table from "./Table.component";
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    boxShadow: "none",
-    borderBottom: "1px solid rgba(0, 0, 0, 0.12)"
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0
-  },
-  drawerPaper: {
-    width: drawerWidth
   },
   content: {
     flexGrow: 1,
@@ -43,112 +22,19 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = () => {
   const classes = useStyles();
-  const renderDotCell = value => {
-    if (value) {
-      return (
-        <Badge color="primary" variant="dot" className={classes.badge}>
-          <React.Fragment />
-        </Badge>
-      );
-    }
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
   };
 
-  const renderScoreCell = value => {
-    const criticalLimit = 25;
-    const criticalText = "Critical";
-
-    if (value <= criticalLimit) {
-      return (
-        <React.Fragment>
-          <Typography variant="caption">{`${value}% `} </Typography>
-
-          <Chip color="secondary" size="small" label={criticalText} />
-        </React.Fragment>
-      );
-    }
-
-    return value;
-  };
-
-  const columns = [
-    "#",
-    {
-      name: "",
-      options: {
-        customBodyRender: renderDotCell
-      }
-    },
-    "Time",
-    "First Name",
-    "Last Name",
-    "Location",
-    "Authentication Document",
-    {
-      name: "Score",
-      options: {
-        customBodyRender: renderScoreCell
-      }
-    },
-    "Status"
-  ];
-
-  let data = [
-    ["1", "", "Joe", "James", "Egypt", "Passport", "20", 20, "clear"],
-    ["1", true, "Joe", "James", "Egypt", "Passport", "20", 30, "clear"],
-    ["1", "", "Joe", "James", "Egypt", "Passport", "20", 30, "clear"],
-    ["1", "", "Joe", "James", "Egypt", "Passport", "20", 30, "clear"]
-  ];
-
-  data = [...data, ...data, ...data];
-
-  const renderFooter = (
-    count,
-    page,
-    rowsPerPage,
-    changeRowsPerPage,
-    changePage
-  ) => {
-    const maxNumOfButtons = 5;
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar} color="secondary">
-        <Toolbar />
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-        <div className={classes.toolbar} />
-        <List>
-          {["Dashboard", "Documentation", "Analytics", "Setting"].map(
-            (text, index) => (
-              <ListItem
-                style={{
-                  borderLeft:
-                    index == 0 && `4px solid ${colors.primaryColors.blue}`,
-                  marginBottom: "5%"
-                }}
-                button
-                key={text}
-              >
-                <ListItemText>
-                  <Typography component="span">
-                    <Box fontWeight={index === 0 ? 700 : 400}>{text}</Box>
-                  </Typography>
-                </ListItemText>
-                <Box fontWeight={700}>
-                  <Chip color="primary" size="small" label="25" />
-                </Box>
-              </ListItem>
-            )
-          )}
-        </List>
-      </Drawer>
+      <DashboardAppBar />
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Button variant="contained" color="secondary">
@@ -300,19 +186,9 @@ const Dashboard = () => {
             </Grid>
           </Grid>
         </Grid>
-        <MUIDataTable
-          data={data}
-          columns={columns}
-          options={{
-            filter: false,
-            search: false,
-            download: false,
-            print: false,
-            viewColumns: false,
-            selectableRows: "none"
-          }}
-        />
-        <PopUp />
+
+        <Table handleOpen={handleOpen} />
+        <PopUp open={open} handleClose={handleClose} />
       </main>
     </div>
   );
